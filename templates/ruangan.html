@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Ruangan | Inventory System Modern</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-glass: rgba(30, 34, 45, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
+            min-height: 100vh;
+            color: #f1f5f9;
+        }
+
+        /* Modern Sidebar */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid var(--border-glass);
+            z-index: 100;
+            padding: 24px;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+        }
+
+        .menu-link:hover, .menu-link.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Table Design */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+        }
+
+        .custom-table th {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            padding: 16px;
+            font-weight: 600;
+            color: #94a3b8;
+            border: none;
+        }
+
+        .custom-table tbody tr {
+            background: rgba(30, 34, 45, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .custom-table tbody tr:hover {
+            background: rgba(45, 50, 67, 0.6);
+        }
+
+        .custom-table td {
+            padding: 16px;
+            border-top: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
+            color: #e2e8f0;
+        }
+
+        .custom-table td:first-child {
+            border-left: 1px solid var(--border-glass);
+            border-radius: 12px 0 0 12px;
+        }
+
+        .custom-table td:last-child {
+            border-right: 1px solid var(--border-glass);
+            border-radius: 0 12px 12px 0;
+        }
+
+        .barcode-preview-img {
+            max-height: 50px;
+            border-radius: 6px;
+            background: white;
+            padding: 2px;
+        }
+
+        /* Form styling */
+        .form-control {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border-glass);
+            color: #f1f5f9;
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+
+        .form-control:focus {
+            background: rgba(15, 23, 42, 0.7);
+            border-color: #6366f1;
+            color: #f1f5f9;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-modern-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="nav flex-column mt-3">
+        <a href="/" class="menu-link">
+            <i class="fa-solid fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="/scan" class="menu-link">
+            <i class="fa-solid fa-qrcode"></i> Scan Scanner
+        </a>
+        <a href="/ruangan" class="menu-link active">
+            <i class="fa-solid fa-door-open"></i> Ruangan
+        </a>
+    </div>
+</div>
+
+<div class="main-content">
+    
+    <div class="mb-5">
+        <h2 class="fw-bold m-0 text-white">Manajemen Ruangan / Lokasi</h2>
+        <p class="text-muted m-0">Buat lokasi penempatan inventaris baru dan kelola pelabelan barcode ruangan</p>
+    </div>
+
+    <div class="glass-card mb-4">
+        <h5 class="fw-bold mb-3 text-white"><i class="fa-solid fa-folder-plus text-primary me-2"></i>Buat Ruangan Baru</h5>
+        <form action="/tambah_ruangan" method="POST" class="row g-3 align-items-end">
+            <div class="col-md-8">
+                <label class="form-label small text-muted">Nama Ruangan / Sektor</label>
+                <input type="text" name="nama_ruangan" class="form-control" placeholder="Contoh: Ruang Rapat Utama, Ruang IT" required>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-modern-primary w-100"><i class="fa-solid fa-plus me-2"></i>Tambah Ruangan</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="glass-card">
+        <h4 class="fw-bold mb-4 text-white"><i class="fa-solid fa-table text-primary me-2"></i>Daftar Ruangan Terdaftar</h4>
+        
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">No</th>
+                        <th>Nama Ruangan</th>
+                        <th class="text-center">Barcode Lokasi</th>
+                        <th class="text-center" style="width: 200px;">Aksi Manajemen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in ruangan %}
+                    <tr>
+                        <td class="text-muted font-monospace">{{ loop.index }}</td>
+                        <td>
+                            <a href="/ruangan/{{ r.id }}" class="text-info fw-bold text-decoration-none">
+                                <i class="fa-solid fa-folder text-warning me-2"></i>{{ r.nama_ruangan }}
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <img src="{{ url_for('static', filename='qr_ruangan/ruangan_' ~ r.id ~ '.png') }}" class="barcode-preview-img shadow-sm" alt="QR Ruangan">
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ url_for('static', filename='qr_ruangan/ruangan_' ~ r.id ~ '.png') }}" target="_blank" class="btn btn-sm btn-outline-primary px-3" title="Cetak Barcode">
+                                    <i class="fa-solid fa-print me-1"></i> Cetak
+                                </a>
+                                <a href="/hapus_ruangan/{{ r.id }}" class="btn btn-sm btn-outline-danger px-3" onclick="return confirm('Yakin ingin menghapus ruangan ini? Semua barang di dalamnya akan di-reset lokasinya.')" title="Hapus Ruangan">
+                                    <i class="fa-solid fa-trash-can me-1"></i> Hapus
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
